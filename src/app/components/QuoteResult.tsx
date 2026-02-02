@@ -15,23 +15,26 @@ interface QuoteResponse {
   mensaje?: string;
 }
 
-interface FormData {
-  cimentacion: string;
-  obraGruesa: string;
-  terminaciones: string;
-  ubicacion: string;
-  metrosCuadrados: string;
-  nombreCliente: string;
-  emailCliente: string;
-  telefonoCliente: string;
+interface FieldOption {
+  value: string;
+  label: string;
+}
+
+interface FormField {
+  id: string;
+  type: string;
+  label: string;
+  required: boolean;
+  options?: FieldOption[];
 }
 
 interface QuoteResultProps {
   result: QuoteResponse;
-  formData: FormData;
+  formData: Record<string, string>;
+  fields: FormField[];
 }
 
-export function QuoteResult({ result, formData }: QuoteResultProps) {
+export function QuoteResult({ result, formData, fields }: QuoteResultProps) {
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('es-CL', {
       style: 'currency',
@@ -42,14 +45,14 @@ export function QuoteResult({ result, formData }: QuoteResultProps) {
   };
 
   const handleWhatsAppContact = () => {
-    const mensaje = `Hola! Recibí una cotización de ${formatCurrency(result.cotizacion || 0)} para construir ${formData.metrosCuadrados}m² y me gustaría más información.`;
+    const mensaje = `Hola! Recibí una cotización de ${formatCurrency(result.cotizacion || 0)} y me gustaría más información.`;
     const whatsappUrl = `https://wa.me/56968749874?text=${encodeURIComponent(mensaje)}`;
     window.open(whatsappUrl, '_blank');
   };
 
   const handleEmailContact = () => {
     const subject = "Consulta sobre Cotización de Construcción";
-    const body = `Hola,\\n\\nRecibí una cotización para mi proyecto de construcción:\\n\\n- Metraje: ${formData.metrosCuadrados}m²\\n- Ubicación: ${formData.ubicacion}\\n- Cotización: ${formatCurrency(result.cotizacion || 0)}\\n\\nMe gustaría obtener más información.\\n\\nSaludos.`;
+    const body = `Hola,\\n\\nRecibí una cotización para mi proyecto de construcción.\\n\\nCotización: ${formatCurrency(result.cotizacion || 0)}\\n\\nMe gustaría obtener más información.\\n\\nSaludos.`;
     const mailtoUrl = `mailto:zs8967l33t@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoUrl;
   };
@@ -59,6 +62,32 @@ export function QuoteResult({ result, formData }: QuoteResultProps) {
     // Por ahora muestra una alerta
     alert("Funcionalidad de descarga en desarrollo. Por favor contacte para recibir su cotización por email.");
   };
+
+  // Función para formatear el valor mostrado
+  const formatFieldValue = (field: FormField, value: string) => {
+    // Si el campo es un select, buscar el label correspondiente
+    if (field.type === 'select' && field.options) {
+      const option = field.options.find(opt => opt.value === value);
+      if (option) {
+        return option.label;
+      }
+    }
+    
+    // Para campos numéricos, agregar unidades si es apropiado
+    if (field.type === 'number' && field.id.toLowerCase().includes('metros')) {
+      return `${value} m²`;
+    }
+    
+    // Reemplazar TODOS los guiones por espacios y capitalizar
+    return value.replace(/-/g, ' ');
+  };
+
+  // Filtrar solo los campos requeridos (información del proyecto)
+  const projectFields = fields.filter(f => f.required);
+  
+  // Encontrar el campo de metros cuadrados para calcular precio por m²
+  const metrosCuadradosField = fields.find(f => f.type === 'number' && f.id.toLowerCase().includes('metros'));
+  const metrosCuadrados = metrosCuadradosField ? parseFloat(formData[metrosCuadradosField.id] || '0') : 0;
 
   return (
     <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -82,64 +111,34 @@ export function QuoteResult({ result, formData }: QuoteResultProps) {
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-6 space-y-6">
-          {/* Resumen del Proyecto */}
+          {/* Resumen del Proyecto - Dinámico */}
           <div className="grid md:grid-cols-2 gap-4 pb-4 border-b border-gray-200">
-            <div>
-              <p className="text-sm text-gray-600">Metraje</p>
-              <p className="font-semibold">{formData.metrosCuadrados} m²</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Ubicación</p>
-              <p className="font-semibold capitalize">{formData.ubicacion.replace('-', ' ')}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Cimentación</p>
-              <p className="font-semibold capitalize">{formData.cimentacion}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Obra Gruesa</p>
-              <p className="font-semibold capitalize">{formData.obraGruesa}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Terminaciones</p>
-              <p className="font-semibold capitalize">{formData.terminaciones}</p>
-            </div>
+            {projectFields.map((field) => {
+              const value = formData[field.id];
+              if (!value) return null;
+              
+              return (
+                <div key={field.id}>
+                  <p className="text-sm text-gray-600">{field.label}</p>
+                  <p className="font-semibold capitalize">
+                    {formatFieldValue(field, value)}
+                  </p>
+                </div>
+              );
+            })}
           </div>
 
-          {/* Desglose (si está disponible) */}
-          {result.desglose && (
-            <div className="space-y-3 pb-4 border-b border-gray-200">
-              <h4 className="font-semibold text-gray-900">Desglose de Costos</h4>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Cimentación</span>
-                  <span className="font-medium">{formatCurrency(result.desglose.cimentacion)}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Obra Gruesa</span>
-                  <span className="font-medium">{formatCurrency(result.desglose.obraGruesa)}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Terminaciones</span>
-                  <span className="font-medium">{formatCurrency(result.desglose.terminaciones)}</span>
-                </div>
-                <div className="flex justify-between text-base font-semibold pt-2 border-t border-gray-300">
-                  <span>Total</span>
-                  <span className="text-blue-600">{formatCurrency(result.desglose.total)}</span>
-                </div>
+          {/* Precio por m² - Solo si hay campo de metros cuadrados */}
+          {metrosCuadrados > 0 && (
+            <div className="bg-blue-50 rounded-lg p-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-700">Precio por m²</span>
+                <span className="text-lg font-bold text-blue-600">
+                  {formatCurrency((result.cotizacion || 0) / metrosCuadrados)}
+                </span>
               </div>
             </div>
           )}
-
-          {/* Precio por m² */}
-          <div className="bg-blue-50 rounded-lg p-4">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-700">Precio por m²</span>
-              <span className="text-lg font-bold text-blue-600">
-                {formatCurrency((result.cotizacion || 0) / parseFloat(formData.metrosCuadrados))}
-              </span>
-            </div>
-          </div>
 
           {/* Botones de Acción */}
           <div className="space-y-3 pt-2">

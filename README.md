@@ -1,99 +1,97 @@
 # 🏗️ Cotizador de Construcción - V Región, Chile
 
-Aplicación web simple y confiable para que los usuarios estimen cotizaciones de construcción de casas en la V región de Chile.
+Aplicación web para estimar cotizaciones de construcción de casas. Disponible en **dos versiones** con diferentes niveles de configurabilidad.
 
 ![Status](https://img.shields.io/badge/status-production%20ready-brightgreen)
 ![Platform](https://img.shields.io/badge/platform-netlify-00C7B7)
-![License](https://img.shields.io/badge/license-private-red)
+![Versions](https://img.shields.io/badge/versions-static%20%7C%20dynamic-blue)
 
 ---
 
-## 📋 Descripción
+## 🎯 Dos Versiones Disponibles
 
-Esta aplicación permite a los usuarios cotizar proyectos de construcción definiendo:
+### 📌 Versión ESTÁTICA
+Formulario tradicional con campos definidos en el código.
 
-- **Cimentación** (3 niveles: Básica, Media, Alta)
-- **Obra Gruesa** (3 niveles: Básica, Media, Alta)
-- **Terminaciones** (3 niveles: Básica, Media, Alta)
-- **Ubicación** (Ciudades de la V Región)
-- **Metros Cuadrados** a construir
-- **Información de Contacto** (opcional)
+**✅ Ideal para:**
+- Formulario estable que no cambiará frecuentemente
+- Desarrolladores que prefieren control total del código
+- Proyectos simples con pocos campos
 
-Los cálculos se realizan mediante **Google Apps Script** conectado a **Google Sheets**, manteniendo las fórmulas privadas para evitar espionaje industrial.
+**Archivos:**
+- `/src/app/components/QuoteForm.tsx`
+- [Ver documentación →](QUICKSTART.md)
 
 ---
 
-## ✨ Características
+### ⚡ Versión DINÁMICA (Recomendada)
+Formulario 100% configurable desde Google Sheets sin tocar código.
 
-- ✅ Interfaz simple y profesional que genera confianza
-- ✅ Cotizaciones instantáneas calculadas en tiempo real
-- ✅ Desglose detallado de costos por área
+**✅ Ideal para:**
+- Agregar/modificar campos sin redesplegar
+- Clientes que quieren autonomía de configuración
+- Negocios en evolución con requisitos cambiantes
+
+**Archivos:**
+- `/src/app/components/DynamicQuoteForm.tsx`
+- [Ver documentación →](README_DYNAMIC.md)
+
+---
+
+## 🤔 ¿Cuál Elegir?
+
+| Tu Necesidad | Versión Recomendada |
+|--------------|---------------------|
+| "Quiero lanzar rápido y el formulario no cambiará mucho" | 📌 Estática |
+| "Voy a agregar campos regularmente" | ⚡ Dinámica |
+| "Mi cliente quiere poder configurar sin ayuda técnica" | ⚡ Dinámica |
+| "Prefiero tener todo el código en el repositorio" | 📌 Estática |
+| "Necesito experimentar con diferentes estructuras" | ⚡ Dinámica |
+| "Múltiples personas van a modificar el formulario" | ⚡ Dinámica |
+
+**📊 [Ver comparación detallada](COMPARISON.md)**
+
+---
+
+## 🚀 Inicio Rápido
+
+### Versión Dinámica (Recomendada):
+
+1. Configura Google Sheet con estructura de campos
+2. Despliega Google Apps Script
+3. Configura URL en `DynamicQuoteForm.tsx`
+4. Deploy a Netlify
+
+**Guía completa**: [QUICKSTART_DYNAMIC.md](QUICKSTART_DYNAMIC.md)
+
+### Versión Estática:
+
+1. Configura Google Apps Script
+2. Ajusta campos en `QuoteForm.tsx` si es necesario
+3. Deploy a Netlify
+
+**Guía completa**: [QUICKSTART.md](QUICKSTART.md)
+
+---
+
+## ✨ Características Principales
+
+### Comunes a Ambas Versiones:
+- ✅ Cotizaciones instantáneas
+- ✅ Desglose detallado de costos
 - ✅ Precio por metro cuadrado
-- ✅ Botones de contacto directo (WhatsApp y Email)
-- ✅ Responsive (funciona en móviles y escritorio)
-- ✅ Fórmulas privadas protegidas en Google Sheets
-- ✅ Fácil de modificar (acceso directo al Excel)
-- ✅ Escalable (se pueden agregar más campos fácilmente)
+- ✅ Botones de contacto (WhatsApp y Email)
+- ✅ Responsive (móvil y desktop)
+- ✅ Fórmulas privadas en Google Sheets
+- ✅ Diseño profesional y confiable
+- ✅ $0/mes en hosting (tiers gratuitos)
 
----
-
-## 🚀 Despliegue Rápido
-
-### Paso 1: Configurar Google Apps Script
-
-Sigue las instrucciones detalladas en:
-👉 **[SETUP_GOOGLE_APPS_SCRIPT.md](SETUP_GOOGLE_APPS_SCRIPT.md)**
-
-### Paso 2: Desplegar en Netlify
-
-Sigue las instrucciones detalladas en:
-👉 **[DEPLOY_NETLIFY.md](DEPLOY_NETLIFY.md)**
-
-**Resumen rápido:**
-```bash
-# 1. Instalar dependencias
-npm install
-
-# 2. Construir para producción
-npm run build
-
-# 3. La carpeta 'dist' está lista para desplegar en Netlify
-# Arrástrala a https://app.netlify.com/drop
-```
-
----
-
-## 🛠️ Desarrollo Local
-
-### Requisitos
-
-- Node.js 20 o superior
-- npm o pnpm
-
-### Instalación
-
-```bash
-# Clonar el repositorio
-git clone <url-del-repo>
-cd cotizador-construccion
-
-# Instalar dependencias
-npm install
-
-# Desarrollo local (modo dev)
-npm run dev
-
-# Construir para producción
-npm run build
-```
-
-### Configuración
-
-Edita la URL de Google Apps Script en:
-```
-/src/app/components/QuoteForm.tsx
-Línea 53: const GOOGLE_SCRIPT_URL = "TU_URL_AQUI"
-```
+### Exclusivo de Versión Dinámica:
+- ✅ Agregar/eliminar campos sin código
+- ✅ Modificar opciones sin redesplegar
+- ✅ Configuración desde Excel/Sheets
+- ✅ Ideal para clientes no técnicos
+- ✅ Escalable hasta 50+ campos fácilmente
 
 ---
 
@@ -104,116 +102,246 @@ Línea 53: const GOOGLE_SCRIPT_URL = "TU_URL_AQUI"
 ├── src/
 │   ├── app/
 │   │   ├── components/
-│   │   │   ├── Header.tsx           # Cabecera con logo y título
-│   │   │   ├── Footer.tsx           # Pie con información de contacto
-│   │   │   ├── QuoteForm.tsx        # Formulario principal
-│   │   │   ├── QuoteResult.tsx      # Visualización de resultados
-│   │   │   └── ui/                  # Componentes UI reutilizables
-│   │   └── App.tsx                  # Componente principal
-│   └── styles/                      # Estilos globales
-├── netlify.toml                     # Configuración de Netlify
-├── SETUP_GOOGLE_APPS_SCRIPT.md      # Guía de configuración backend
-├── DEPLOY_NETLIFY.md                # Guía de despliegue
-├── TROUBLESHOOTING.md               # Solución de problemas
-└── README.md                        # Este archivo
+│   │   │   ├── QuoteForm.tsx              # 📌 Versión ESTÁTICA
+│   │   │   ├── DynamicQuoteForm.tsx       # ⚡ Versión DINÁMICA
+│   │   │   ├── QuoteResult.tsx            # Resultados (compartido)
+│   │   │   ├── Header.tsx                 # Cabecera
+│   │   │   ├── Footer.tsx                 # Pie de página
+│   │   │   └── ui/                        # Componentes UI
+│   │   └── App.tsx                        # App principal
+│   └── styles/                            # Estilos
+│
+├── Documentación:
+│   ├── README.md                          # Este archivo
+│   ├── COMPARISON.md                      # 📊 Comparación de versiones
+│   │
+│   ├── Versión Estática:
+│   │   ├── QUICKSTART.md                  # Inicio rápido
+│   │   ├── SETUP_GOOGLE_APPS_SCRIPT.md    # Setup backend
+│   │   └── TROUBLESHOOTING.md             # Solución de problemas
+│   │
+│   ├── Versión Dinámica:
+│   │   ├── QUICKSTART_DYNAMIC.md          # Inicio rápido
+│   │   ├── README_DYNAMIC.md              # Info completa
+│   │   ├── SETUP_GOOGLE_SHEETS_DYNAMIC.md # Setup completo
+│   │   └── GOOGLE_APPS_SCRIPT_DYNAMIC.gs  # Código del script
+│   │
+│   └── Deployment:
+│       ├── DEPLOY_NETLIFY.md              # Guía de despliegue
+│       ├── DEPLOYMENT_CHECKLIST.md        # Checklist
+│       └── UPDATES.md                     # Cómo actualizar
+│
+└── netlify.toml                           # Config de Netlify
 ```
 
 ---
 
-## 🔧 Personalización
+## 🔧 Cambiar de Versión
 
-### Cambiar Información de Contacto
+Ambas versiones están incluidas. Para cambiar:
 
-Edita `/src/app/components/Footer.tsx` y `/src/app/components/QuoteResult.tsx`:
+### Usar Versión Estática:
+```typescript
+// En /src/app/App.tsx
+import { QuoteForm } from "@/app/components/QuoteForm";
 
-```tsx
-// Teléfono
-<span>+56 9 6874 9874</span>
-
-// Email
-<span>zs8967l33t@gmail.com</span>
-
-// WhatsApp (en QuoteResult.tsx)
-const whatsappUrl = `https://wa.me/56968749874?text=...`;
+export default function App() {
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Header />
+      <main className="flex-1 container mx-auto px-4 py-8 md:py-12 max-w-4xl">
+        <QuoteForm />  {/* ← Versión Estática */}
+      </main>
+      <Footer />
+    </div>
+  );
+}
 ```
 
-### Agregar Más Ubicaciones
+### Usar Versión Dinámica:
+```typescript
+// En /src/app/App.tsx
+import { DynamicQuoteForm } from "@/app/components/DynamicQuoteForm";
 
-Edita `/src/app/components/QuoteForm.tsx` en la sección de ubicaciones:
-
-```tsx
-<SelectContent>
-  <SelectItem value="valparaiso">Valparaíso</SelectItem>
-  <SelectItem value="nueva-ciudad">Nueva Ciudad</SelectItem>
-  {/* Agregar más aquí */}
-</SelectContent>
+export default function App() {
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Header />
+      <main className="flex-1 container mx-auto px-4 py-8 md:py-12 max-w-4xl">
+        <DynamicQuoteForm />  {/* ← Versión Dinámica */}
+      </main>
+      <Footer />
+    </div>
+  );
+}
 ```
 
-También actualiza tu Google Sheet con los multiplicadores correspondientes.
+Luego: `npm run build` y redesplegar.
 
-### Cambiar Colores y Estilos
+---
 
-Los estilos principales están en `/src/styles/theme.css`
+## 💡 Ejemplo de Uso: Versión Dinámica
+
+### Agregar Campo "Número de Pisos"
+
+**Sin código, solo en Google Sheets:**
+
+1. Ve a la hoja `variables_formulario`
+2. Agrega una fila:
+   ```
+   pisos | select | Número de Pisos | 1|Un piso,2|Dos pisos,3|Tres pisos | SI
+   ```
+3. Actualiza fórmulas en hoja `calculo`
+4. **¡Listo!** Recarga la web y el campo aparece
+
+**Tiempo: 2 minutos | Sin redespliegue**
 
 ---
 
 ## 📊 Arquitectura
 
+### Flujo de Datos:
+
 ```
 Usuario → Formulario Web → Google Apps Script → Google Sheets → Respuesta JSON → UI
 ```
 
-**Ventajas de esta arquitectura:**
-- ✅ Fórmulas protegidas (solo tú las ves)
-- ✅ Fácil de modificar (editas el Excel directamente)
+**Ventajas:**
+- ✅ Fórmulas protegidas (privadas en Sheets)
+- ✅ Modificables sin código (en versión dinámica)
 - ✅ Sin base de datos necesaria
-- ✅ Escalable y económico (todo gratis)
 - ✅ Backup automático en Google Drive
+- ✅ Escalable y económico ($0)
+
+---
+
+## 🛠️ Stack Tecnológico
+
+| Capa | Tecnología | Versión |
+|------|------------|---------|
+| Frontend | React | 18.3.1 |
+| Language | TypeScript | Latest |
+| Styling | Tailwind CSS | 4.1.12 |
+| UI Components | Radix UI | Latest |
+| Build Tool | Vite | 6.3.5 |
+| Backend | Google Apps Script | N/A |
+| Database | Google Sheets | N/A |
+| Hosting | Netlify | Free Tier |
+
+---
+
+## 💰 Costos
+
+### Producción:
+- **Netlify Free Tier**: $0/mes
+  - 100 GB bandwidth
+  - SSL incluido
+  - Más que suficiente
+  
+- **Google Apps Script**: $0/mes
+  - Hasta 20,000 requests/día
+  - Suficiente para ~500 cotizaciones/día
+
+**Total mensual: $0 USD**
+
+### Opcional:
+- Dominio propio (.cl): ~$15.000 CLP/año
 
 ---
 
 ## 🔐 Seguridad
 
-- ✅ **Headers de seguridad** configurados en `netlify.toml`
-- ✅ **HTTPS automático** con certificado SSL gratuito de Netlify
-- ✅ **Fórmulas privadas** protegidas en Google Sheets
-- ✅ **No se expone información sensible** en el frontend
-- ✅ **Sin almacenamiento local** de datos sensibles
+- ✅ HTTPS automático (SSL de Netlify)
+- ✅ Headers de seguridad configurados
+- ✅ Fórmulas privadas (no expuestas al frontend)
+- ✅ Sin credenciales en el código
+- ✅ CORS manejado por Google Apps Script
 
 ---
 
-## 🐛 Solución de Problemas
+## 📞 Información de Contacto
 
-Si encuentras errores, consulta:
-👉 **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)**
+Configurada en:
+- `/src/app/components/Footer.tsx`
+- `/src/app/components/QuoteResult.tsx`
 
-### Problemas Comunes
-
-1. **"NetworkError" al generar cotización**
-   - Verifica que Google Apps Script esté desplegado correctamente
-   - Confirma que la URL sea la correcta
-   - Lee TROUBLESHOOTING.md para más detalles
-
-2. **Botón de WhatsApp no funciona**
-   - Verifica el número en QuoteResult.tsx
-   - Formato correcto: `56968749874` (sin +, espacios ni guiones)
-
-3. **El email no se abre**
-   - Verifica que el formato sea: `mailto:email@ejemplo.com`
+**Actual:**
+- 📱 WhatsApp: +56 9 6874 9874
+- ✉️ Email: zs8967l33t@gmail.com
+- 📍 Ubicación: V Región, Chile
 
 ---
 
-## 📈 Próximas Mejoras (Roadmap)
+## 🚀 Despliegue
 
-Ideas para futuras versiones:
+### Local (Desarrollo):
+```bash
+npm install
+npm run dev
+```
 
-- [ ] Agregar más campos personalizables (pisos, baños, etc.)
-- [ ] Sistema de descarga de cotizaciones en PDF
-- [ ] Formulario de captura de leads mejorado
-- [ ] Integración con Google Analytics
-- [ ] Panel de administración para ver cotizaciones
-- [ ] Modo oscuro
-- [ ] Múltiples idiomas
+### Producción (Netlify):
+```bash
+npm run build
+# Arrastra carpeta 'dist' a https://app.netlify.com/drop
+```
+
+**Documentación completa**: [DEPLOY_NETLIFY.md](DEPLOY_NETLIFY.md)
+
+---
+
+## 📚 Documentación
+
+### Empezar:
+1. **[COMPARISON.md](COMPARISON.md)** - ¿Qué versión elegir?
+2. **[QUICKSTART_DYNAMIC.md](QUICKSTART_DYNAMIC.md)** - Inicio rápido (Dinámica)
+3. **[QUICKSTART.md](QUICKSTART.md)** - Inicio rápido (Estática)
+
+### Configuración:
+- **[SETUP_GOOGLE_SHEETS_DYNAMIC.md](SETUP_GOOGLE_SHEETS_DYNAMIC.md)** - Setup completo versión dinámica
+- **[SETUP_GOOGLE_APPS_SCRIPT.md](SETUP_GOOGLE_APPS_SCRIPT.md)** - Setup versión estática
+
+### Deployment:
+- **[DEPLOY_NETLIFY.md](DEPLOY_NETLIFY.md)** - Guía de despliegue
+- **[DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)** - Checklist completo
+
+### Soporte:
+- **[TROUBLESHOOTING.md](TROUBLESHOOTING.md)** - Solución de problemas
+- **[UPDATES.md](UPDATES.md)** - Cómo actualizar el sitio
+
+---
+
+## 🎯 Roadmap
+
+- [x] Versión estática funcional
+- [x] Versión dinámica con config desde Sheets
+- [x] Documentación completa
+- [x] Deploy a Netlify
+- [ ] Multi-idioma
+- [ ] Exportar cotizaciones a PDF
+- [ ] Dashboard de administración
+- [ ] Sistema de notificaciones
+
+---
+
+## ❓ FAQ
+
+### ¿Puedo cambiar entre versiones después?
+Sí, solo cambia el import en `App.tsx` y redesplega.
+
+### ¿Necesito conocimientos de programación?
+- **Versión Estática**: Sí (React/TypeScript)
+- **Versión Dinámica**: No (solo Excel/Sheets)
+
+### ¿Los cambios en Google Sheets son instantáneos?
+- **Fórmulas y precios**: Sí, inmediatos
+- **Campos (versión dinámica)**: Sí, solo recargar la página
+
+### ¿Puedo proteger mis fórmulas?
+Sí, ambas versiones mantienen las fórmulas privadas en Google Sheets.
+
+### ¿Cuántas cotizaciones puedo generar?
+Ilimitadas dentro de los límites gratuitos de Google (20,000 requests/día).
 
 ---
 
@@ -229,7 +357,20 @@ Privado - Todos los derechos reservados © 2026
 
 ---
 
-## 📞 Contacto
+## 🎉 Créditos
+
+- **Frontend**: React + Tailwind CSS + Radix UI
+- **Backend**: Google Apps Script
+- **Hosting**: Netlify
+- **Diseño**: Sistema personalizado para generar confianza
+
+---
+
+**Construido con ❤️ para la V Región de Chile**
+
+---
+
+## 📧 Contacto
 
 Para consultas sobre la aplicación o servicios de construcción:
 
@@ -239,16 +380,10 @@ Para consultas sobre la aplicación o servicios de construcción:
 
 ---
 
-## ⚡ Stack Tecnológico
+**¿Listo para empezar?**
 
-- **Frontend**: React 18 + TypeScript
-- **Estilos**: Tailwind CSS v4
-- **UI Components**: Radix UI + shadcn/ui
-- **Build Tool**: Vite
-- **Hosting**: Netlify
-- **Backend**: Google Apps Script
-- **Base de Datos**: Google Sheets
+👉 **Versión Dinámica** (Recomendada): [QUICKSTART_DYNAMIC.md](QUICKSTART_DYNAMIC.md)
 
----
+👉 **Versión Estática**: [QUICKSTART.md](QUICKSTART.md)
 
-**Construido con ❤️ para la V Región de Chile**
+👉 **Comparar ambas**: [COMPARISON.md](COMPARISON.md)

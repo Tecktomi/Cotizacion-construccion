@@ -50,7 +50,7 @@ export function QuoteForm() {
 
   // URL de tu Google Apps Script Web App
   // Instrucciones para obtener esta URL están en el README
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwACHdhkY-ZT9KS9Fkys1IrWlBlOdrOHYhTOXPhZJ_o6naJzzwyDBiSCZWVbDrhISjsEQ/exec";
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyXK1J9wHoi4SkUbYVk23dUGR8mwZTiDelWFti2S8f-6ky9ITtRBZpr95Q7DC2KM6sbgA/exec";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
